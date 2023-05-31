@@ -15,9 +15,9 @@ export default function Home() {
 
   return (
     <main className='flex min-h-screen flex-col items-center justify-between p-24'>
-      <div className='z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex'>
+      <div className='z-10 w-full max-w-5xl items-center justify-between font-mono text-sm flex'>
         <p className='w-1/4'>Create a QR Code quickly and easily for free 🤩</p>
-        <div className='fixed bottom-0 left-0 flex h-48 w-full items-end justify-center flex-col bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none'>
+        <div className='left-0 flex items-end justify-center flex-col static h-auto w-auto bg-none'>
           <Image
             src='/qr-code-logo.svg'
             alt='QR Code Logo'
@@ -42,10 +42,12 @@ export default function Home() {
         </div>
       </div>
 
-      <p className='fixed left-0 top-0 flex w-[50vw] justify-center border-b border-violet-300 bg-gradient-to-b from-violet-200 pb-2 pt-2 backdrop-blur-2xl dark:border-violet-800 dark:bg-violet-800/30 dark:from-inherit lg:static lg:rounded-xl lg:border lg:bg-violet-200 p-4 lg:dark:bg-violet-800/30'>
+      <p className='flex w-[50vw] justify-center border-b border-violet-300 bg-gradient-to-b from-violet-200 pb-2 pt-2 backdrop-blur-2xl dark:border-violet-800 dark:bg-violet-800/30 dark:from-inherit static lg:rounded-xl lg:border lg:bg-violet-200 p-4 lg:dark:bg-violet-800/30'>
         &nbsp;
         <input
           value={input}
+          type='text'
+          spellCheck='false'
           onChange={handleInputChange}
           placeholder='Paste a link to get started'
           className='fixed left-0 top-0 flex w-full justify-center lg:static text-center text-white text-md bg-transparent border-none outline-none font-mono font-bold'
@@ -53,15 +55,15 @@ export default function Home() {
       </p>
 
       <footer className='flex mt-20'>
-        <p className='opacity-40'>Created</p>
+        <p className='opacity-40'>Created by</p>
         <a
           className='mx-2 opacity-60 transition duration-300 hover:opacity-100'
           href={twitterLink}
           target='_blank'
         >
           Alex Leybourne
-        </a>{' '}
-        <p className='opacity-40'>2022.</p>
+        </a>
+        <p className='opacity-40'>2023.</p>
       </footer>
     </main>
   );
