@@ -4,14 +4,67 @@ import React, { useState } from 'react';
 
 import Image from 'next/image';
 import { QRCode } from 'react-qrcode-logo';
+import githubLogo from '../public/logos/github.png';
+// Logo Images
+import instagramLogo from '../public/logos/instagram.png';
+import twitterLogo from '../public/logos/twitter.png';
 
 export default function Home() {
   const [input, setInput] = useState('');
+  const [useTheme, setUseTheme] = useState(true);
+  const [theme, setTheme] = useState(null);
+  const [customLogo, setCustomLogo] = useState('');
+  const [logoSize, setLogoSize] = useState(50);
   const twitterLink = 'https://twitter.com/AlexLeybourne';
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInput(event.target.value);
+    getTheme(event.target.value);
   };
+
+  const themes = {
+    twitter: {
+      fgColour: '#1D9BF0',
+      match: /twitter\.com/,
+      logo: twitterLogo.src,
+    },
+    instagram: {
+      fgColour: '#BF3F8D',
+      match: /instagram\.com/,
+      logoPadding: 4,
+      qrStyle: 'dots',
+      eyeRadius: 12,
+      logo: instagramLogo.src,
+    },
+    gitHub: {
+      match: /github\.com/,
+      logo: githubLogo.src,
+      logoPadding: 3,
+      logoPaddingStyle: 'circle',
+    },
+  };
+
+  const defaultThemes = {
+    default: {
+      bgColour: '#FFFFFF',
+      fgColour: '#000000',
+    },
+    dark: {
+      bgColour: '#000000',
+      fgColour: '#FFFFFF',
+    },
+  };
+
+  // if the url matches a theme, return the theme
+  const getTheme = (url: string) => {
+    const theme = Object.entries(themes).find(([, theme]) =>
+      theme.match.test(url)
+    );
+    setTheme(theme ? theme[1] : defaultThemes.default);
+  };
+
+  // Return custom logo or themed logo if they exist
+  const logoUrl = customLogo || theme?.logo;
 
   return (
     <main className='flex min-h-screen flex-col items-center justify-between p-24'>
@@ -38,7 +91,21 @@ export default function Home() {
 
       <div className="relative h-[50vh] w-full flex justify-center place-items-center before:absolute before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[200px] after:w-[400px] after:translate-x-2 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-violet-700 before:dark:opacity-10 after:dark:from-violet-500 after:dark:via-[#6F3EF0] after:dark:opacity-40 before:lg:h-[360px]">
         <div className='flex flex-col items-center align-center justify-center gap-8'>
-          <QRCode value={input.length > 1 ? input : twitterLink} size={200} />
+          <QRCode
+            value={input.length > 1 ? input : twitterLink}
+            size={200}
+            logoImage={logoUrl}
+            logoWidth={logoSize}
+            logoHeight={logoSize}
+            logoPadding={theme?.logoPadding || 0}
+            logoPaddingStyle={theme?.logoPaddingStyle || 'square'} // round | square
+            removeQrCodeBehindLogo={Boolean(logoUrl)}
+            eyeRadius={theme?.eyeRadius || 0}
+            qrStyle={theme?.qrStyle || 'squares'} // squares | dots
+            ecLevel='H' // L | M | Q | H
+            bgColor={theme?.bgColour || defaultThemes.default.bgColour}
+            fgColor={theme?.fgColour || defaultThemes.default.fgColour}
+          />
         </div>
       </div>
 
