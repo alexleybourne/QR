@@ -9,13 +9,25 @@ import githubLogo from '../public/logos/github.png';
 import instagramLogo from '../public/logos/instagram.png';
 import twitterLogo from '../public/logos/twitter.png';
 
+interface Theme {
+  fgColour?: string;
+  match?: RegExp;
+  logo?: string;
+  logoPadding?: number;
+  qrStyle?: null | 'squares' | 'dots';
+  eyeRadius?: number;
+  logoPaddingStyle?: null | 'circle' | 'square';
+  bgColour?: string;
+}
+
 export default function Home() {
   const [input, setInput] = useState('');
   const [useTheme, setUseTheme] = useState(true);
-  const [theme, setTheme] = useState(null);
+  const [theme, setTheme] = useState<Theme | null>(null);
   const [customLogo, setCustomLogo] = useState('');
   const [logoSize, setLogoSize] = useState(50);
   const twitterLink = 'https://twitter.com/AlexLeybourne';
+  const githubLink = 'https://github.com/alexleybourne/QR';
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInput(event.target.value);
@@ -121,16 +133,34 @@ export default function Home() {
         />
       </p>
 
-      <footer className='flex mt-20'>
-        <p className='opacity-40'>Created by</p>
-        <a
-          className='mx-2 opacity-60 transition duration-300 hover:opacity-100'
-          href={twitterLink}
-          target='_blank'
-        >
-          Alex Leybourne
-        </a>
-        <p className='opacity-40'>2023.</p>
+      <footer className='flex-col mt-20'>
+        <span className='flex'>
+          <p className='opacity-40'>Created by</p>
+          <a
+            className='mx-2 opacity-60 transition duration-300 hover:opacity-100'
+            href={twitterLink}
+            target='_blank'
+          >
+            Alex Leybourne
+          </a>
+          <p className='opacity-40'>2023.</p>
+        </span>
+        <span className='flex align-center justify-center m-4'>
+          <a
+            className='mx-2 flex opacity-60 transition duration-300 hover:opacity-100'
+            href={githubLink}
+            target='_blank'
+          >
+            <Image
+              className='invert mr-1'
+              src='/github.svg'
+              alt='Github Logo'
+              width={16}
+              height={16}
+            />
+            GitHub Repo
+          </a>
+        </span>
       </footer>
     </main>
   );
