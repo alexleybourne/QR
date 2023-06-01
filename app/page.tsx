@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 
 import Image from 'next/image';
 import { QRCode } from 'react-qrcode-logo';
+import facebookLogo from '../public/logos/facebook.svg';
 import githubLogo from '../public/logos/github.png';
-// Logo Images
 import instagramLogo from '../public/logos/instagram.png';
 import twitterLogo from '../public/logos/twitter.png';
 
@@ -14,9 +14,9 @@ interface Theme {
   match?: RegExp;
   logo?: string;
   logoPadding?: number;
-  qrStyle?: null | 'squares' | 'dots';
+  qrStyle?: string | null | 'squares' | 'dots';
   eyeRadius?: number;
-  logoPaddingStyle?: null | 'circle' | 'square';
+  logoPaddingStyle?: string | null | 'circle' | 'square';
   bgColour?: string;
 }
 
@@ -47,6 +47,13 @@ export default function Home() {
       qrStyle: 'dots',
       eyeRadius: 12,
       logo: instagramLogo.src,
+    },
+    facebook: {
+      fgColour: '#0C8AF0',
+      match: /facebook\.com/,
+      logo: facebookLogo.src,
+      logoPadding: 3,
+      logoPaddingStyle: 'circle',
     },
     gitHub: {
       match: /github\.com/,
@@ -81,7 +88,10 @@ export default function Home() {
   return (
     <main className='flex min-h-screen flex-col items-center justify-between p-24'>
       <div className='z-10 w-full max-w-5xl items-center justify-between font-mono text-sm flex'>
-        <p className='w-1/4'>Create a QR Code quickly and easily for free 🤩</p>
+        <p className='w-1/4'>
+          Create a QR Code quickly and easily for free 🤩 <br />
+          Work in progress 🛠️
+        </p>
         <div className='left-0 flex items-end justify-center flex-col static h-auto w-auto bg-none'>
           <Image
             src='/qr-code-logo.svg'
