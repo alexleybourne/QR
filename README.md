@@ -7,9 +7,10 @@ Live site link: https://al-qr-code-generator.vercel.app/ 🔗
 
 ## About 📝
 
-After trying to create a nice qr code with a logo for my work I quickly became frustrated by how limited most tools online were and how they all wanted me to signup and added bloat to the process. So I decided to create my own tool that would be simple, easy, feature rich and free to use 😎
+After trying to create a nice qr code with a logo for my work I quickly became frustrated by how limited most tools online were and how they all wanted me to signup and added bloat to the process. So I decided to create my own tool that would be simple, easy, feature rich and free to use. Whist also [tweeting my progress](https://twitter.com/AlexLeybourne/status/1663885858783772672) 😎
 
 If you find this project useful please consider giving it a star ⭐
+
 If you use the code please give me credit and link back to this repo 🙏
 
 Enjoy! 😁
@@ -34,7 +35,7 @@ Coming Soon™ 🚧
 
 ## Built with 🧰
 
-- [react qrcode logo](https://www.npmjs.com/package/react-qrcode-logo) 📦
+- [React QR Code Logo](https://www.npmjs.com/package/react-qrcode-logo) 📦
 
   - A very nice an deasy to use QR code package with logo options.
 
@@ -42,12 +43,16 @@ Coming Soon™ 🚧
 
   - Because it's the best React framework out there.
 
-- [react-palette](https://github.com/lauriys/react-palette) 🎨
+- [React Palette](https://github.com/lauriys/react-palette) 🎨
 
   - A nice package to get the dominant color of an image.
 
 - [Simple Icons](https://github.com/simple-icons/simple-icons) 🖼️
+
   - The best package for all brand icons.
+
+- [jsQR](https://github.com/cozmo/jsQR) 📸
+  - A QR code scanner library.
 
 ## Getting Started 🛠️
 
