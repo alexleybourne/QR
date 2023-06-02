@@ -14,9 +14,9 @@ interface Theme {
   match?: RegExp;
   logo?: string;
   logoPadding?: number;
-  qrStyle?: string | null | 'squares' | 'dots';
+  qrStyle?: 'squares' | 'dots';
   eyeRadius?: number;
-  logoPaddingStyle?: string | null | 'circle' | 'square';
+  logoPaddingStyle?: 'square' | 'circle';
   bgColour?: string;
 }
 
@@ -79,6 +79,7 @@ export default function Home() {
     const theme = Object.entries(themes).find(([, theme]) =>
       theme.match.test(url)
     );
+    // ignore typescript error
     setTheme(theme ? theme[1] : defaultThemes.default);
   };
 
@@ -120,7 +121,7 @@ export default function Home() {
             logoWidth={logoSize}
             logoHeight={logoSize}
             logoPadding={theme?.logoPadding || 0}
-            logoPaddingStyle={theme?.logoPaddingStyle || 'square'} // round | square
+            logoPaddingStyle={theme?.logoPaddingStyle || 'square'} // square | round
             removeQrCodeBehindLogo={Boolean(logoUrl)}
             eyeRadius={theme?.eyeRadius || 0}
             qrStyle={theme?.qrStyle || 'squares'} // squares | dots
@@ -153,7 +154,7 @@ export default function Home() {
           >
             Alex Leybourne
           </a>
-          <p className='opacity-40'>2023.</p>
+          <p className='opacity-40'>2023</p>
         </span>
         <span className='flex align-center justify-center m-4'>
           <a
