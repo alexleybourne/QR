@@ -43,6 +43,10 @@ Coming Soon™ 🚧
 
   - Because it's the best React framework out there.
 
+- [Tailwind CSS](https://tailwindcss.com/) 🍃
+
+  - Nextjs starter had it already so why not.
+
 - [React Palette](https://github.com/lauriys/react-palette) 🎨
 
   - A nice package to get the dominant color of an image.
@@ -50,6 +54,10 @@ Coming Soon™ 🚧
 - [Simple Icons](https://github.com/simple-icons/simple-icons) 🖼️
 
   - The best package for all brand icons.
+
+- [Hero Icons](https://heroicons.com/) 🦸‍♂️
+
+  - A really pretty collection of icons.
 
 - [jsQR](https://github.com/cozmo/jsQR) 📸
   - A QR code scanner library.
