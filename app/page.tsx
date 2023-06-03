@@ -10,6 +10,7 @@ import facebookLogo from '../public/logos/facebook.svg';
 import githubLogo from '../public/logos/github.png';
 import instagramLogo from '../public/logos/instagram.png';
 import twitterLogo from '../public/logos/twitter.png';
+import youtubeLogo from '../public/logos/youtube.svg';
 
 interface Theme {
   fgColour?: string;
@@ -18,6 +19,7 @@ interface Theme {
   logoPadding?: number;
   qrStyleDots?: boolean;
   eyeRadius?: number;
+  eyeColour?: string;
   logoPaddingCircle?: boolean;
   bgColour?: string;
 }
@@ -76,6 +78,13 @@ export default function Home() {
       match: /github\.com/,
       logo: githubLogo.src,
       logoPadding: 3,
+      logoPaddingCircle: true,
+    },
+    youtube: {
+      match: /youtube\.com/,
+      logo: youtubeLogo.src,
+      qrStyleDots: true,
+      eyeColour: '#FF0000',
       logoPaddingCircle: true,
     },
   };
@@ -156,6 +165,11 @@ export default function Home() {
               logoPaddingStyle={theme?.logoPaddingCircle ? 'circle' : 'square'} // square | round
               removeQrCodeBehindLogo={Boolean(logoUrl)}
               eyeRadius={theme?.eyeRadius || 0}
+              eyeColor={
+                theme?.eyeColour ||
+                theme?.fgColour ||
+                defaultThemes.default.fgColour
+              }
               qrStyle={theme?.qrStyleDots ? 'dots' : 'squares'} // squares | dots
               ecLevel='H' // L | M | Q | H
               bgColor={theme?.bgColour || defaultThemes.default.bgColour}
