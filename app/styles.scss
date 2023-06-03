@@ -1,0 +1,24 @@
+nav {
+  @media (max-width: 800px) {
+    padding: 40px !important;
+    justify-content: center !important;
+    transition-duration: 0.2s;
+    img {
+      width: 200px;
+    }
+    a {
+      width: 100%;
+      padding: 0 !important;
+      justify-content: center !important;
+    }
+    p {
+      display: none;
+    }
+  }
+}
+
+.inputs-wrapper {
+  max-width: 640px;
+  width: 90vw;
+  min-width: 400px;
+}
