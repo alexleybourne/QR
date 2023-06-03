@@ -37,7 +37,7 @@ Coming Soon™ 🚧
 
 - [React QR Code Logo](https://www.npmjs.com/package/react-qrcode-logo) 📦
 
-  - A very nice an deasy to use QR code package with logo options.
+  - A very nice and easy to use QR code package with logo options.
 
 - [Next.js](https://nextjs.org/) 🚀
 
