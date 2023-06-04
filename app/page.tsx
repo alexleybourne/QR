@@ -14,7 +14,7 @@ import youtubeLogo from '../public/logos/youtube.svg';
 
 interface Theme {
   fgColour?: string;
-  match?: RegExp;
+  match?: RegExp | RegExp[];
   logo?: string;
   logoPadding?: number;
   qrStyleDots?: boolean;
