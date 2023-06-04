@@ -81,7 +81,7 @@ export default function Home() {
       logoPaddingCircle: true,
     },
     youtube: {
-      match: /youtube\.com/,
+      match: [/youtube\.com/, /youtu\.be/],
       logo: youtubeLogo.src,
       qrStyleDots: true,
       eyeColour: '#FF0000',
@@ -111,13 +111,15 @@ export default function Home() {
     getTheme(input, newUseTheme);
   };
 
-  // if the url matches a theme, return the theme
+  // If the url matches a theme, return the theme
+  // This accepts array for multiple or a single string match
   const getTheme = (url: string, useTheme: boolean) => {
     if (useTheme) {
       const theme = Object.entries(themes).find(([, theme]) =>
-        theme.match.test(url)
+        Array.isArray(theme.match)
+          ? theme.match.some((regex: RegExp) => regex.test(url))
+          : theme.match.test(url)
       );
-      // ignore typescript error
       setTheme(theme ? theme[1] : defaultThemes.default);
     } else {
       setTheme(defaultThemes.default);
