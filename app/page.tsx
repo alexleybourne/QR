@@ -28,8 +28,9 @@ export default function Home() {
   const [input, setInput] = useState('');
   const [useTheme, setUseTheme] = useState(true);
   const [theme, setTheme] = useState<Theme | null>(null);
+  const [qrSize, setQrSize] = useState(300);
   const [customLogo, setCustomLogo] = useState('');
-  const [logoSize, setLogoSize] = useState(50);
+  const [logoSize, setLogoSize] = useState(qrSize / 2 / 2);
   const twitterLink = 'https://twitter.com/AlexLeybourne';
   const githubLink = 'https://github.com/alexleybourne/QR';
 
@@ -159,7 +160,7 @@ export default function Home() {
           <div className='flex flex-col items-center align-center justify-center gap-8'>
             <QRCode
               value={input.length > 1 ? input : twitterLink}
-              size={200}
+              size={qrSize}
               logoImage={logoUrl}
               logoWidth={logoSize}
               logoHeight={logoSize}
@@ -237,13 +238,21 @@ export default function Home() {
             </div>
 
             <div className='flex items-center justify-between my-2'>
-              <label className='font-bold w-1/2'>Logo Size:</label>
+              <label htmlFor='logo-size' className='font-bold w-1/2'>
+                Logo Size:
+              </label>
+              <span className='mr-8'>{logoSize}</span>
+              <span>0</span>
               <input
-                type='number'
+                id='logo-size'
+                type='range'
+                min='0'
+                max={qrSize / 2}
                 value={logoSize}
                 onChange={(event) => setLogoSize(Number(event.target.value))}
-                className='w-16 p-1 border-2 text-purple-800 border-violet-800 focus:border-purple-500 rounded'
+                className='w-1/2 h-5 bg-violet-800/30 outline-none appearance-none border-2 border-purple-800 rounded-full cursor-pointer focus:border-purple-500'
               />
+              <span>{qrSize / 2}</span>
             </div>
 
             <div className='flex items-center justify-between my-2'>
