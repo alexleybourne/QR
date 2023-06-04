@@ -106,6 +106,11 @@ export default function Home() {
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
+  const handleQrResize = (v: number) => {
+    setQrSize(v);
+    setLogoSize(v / 2 / 2);
+  };
+
   const handleSmartThemeChange = () => {
     const newUseTheme = !useTheme;
     setUseTheme(newUseTheme);
@@ -239,9 +244,27 @@ export default function Home() {
 
             <div className='flex items-center justify-between my-2'>
               <label htmlFor='logo-size' className='font-bold w-1/2'>
+                QR Code Size:
+              </label>
+              <span className='mr-2'>{qrSize}px</span>
+              <span>0px</span>
+              <input
+                id='qr-size'
+                type='range'
+                min='0'
+                max='1000'
+                value={qrSize}
+                onChange={(event) => handleQrResize(Number(event.target.value))}
+                className='w-full mx-2 h-5 bg-violet-800/30 outline-none appearance-none border-2 border-purple-800 rounded-full cursor-pointer focus:border-purple-500'
+              />
+              <span>1000 px</span>
+            </div>
+
+            <div className='flex items-center justify-between my-2'>
+              <label htmlFor='logo-size' className='font-bold w-1/2'>
                 Logo Size:
               </label>
-              <span className='mr-8'>{logoSize}</span>
+              <span className='mr-2'>{logoSize}</span>
               <span>0</span>
               <input
                 id='logo-size'
@@ -250,7 +273,7 @@ export default function Home() {
                 max={qrSize / 2}
                 value={logoSize}
                 onChange={(event) => setLogoSize(Number(event.target.value))}
-                className='w-1/2 h-5 bg-violet-800/30 outline-none appearance-none border-2 border-purple-800 rounded-full cursor-pointer focus:border-purple-500'
+                className='w-full mx-2 h-5 bg-violet-800/30 outline-none appearance-none border-2 border-purple-800 rounded-full cursor-pointer focus:border-purple-500'
               />
               <span>{qrSize / 2}</span>
             </div>
