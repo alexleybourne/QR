@@ -6,6 +6,7 @@ import React, { ChangeEvent, useRef, useState } from 'react';
 
 import Image from 'next/image';
 import { QRCode } from 'react-qrcode-logo';
+import appleLogo from '../public/logos/apple.svg';
 import facebookLogo from '../public/logos/facebook.svg';
 import githubLogo from '../public/logos/github.png';
 import instagramLogo from '../public/logos/instagram.png';
@@ -87,6 +88,12 @@ export default function Home() {
       qrStyleDots: true,
       eyeColour: '#FF0000',
       logoPaddingCircle: true,
+    },
+    apple: {
+      match: /apple\.com/,
+      logo: appleLogo.src,
+      logoPadding: -20,
+      qrStyleDots: true,
     },
   };
 
