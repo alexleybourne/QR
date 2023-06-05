@@ -137,7 +137,7 @@ export default function Home() {
 
   return (
     <>
-      <nav className='z-10 fixed w-full flex items-center justify-between font-mono text-s p-14'>
+      <nav className='z-30 fixed w-full flex items-center justify-between font-mono text-s p-14'>
         <p className='w-1/4'>
           Create a QR Code quickly and easily for free 🤩 <br />
           Work in progress 🛠️
@@ -162,7 +162,7 @@ export default function Home() {
       </nav>
       <main className='flex flex-col items-center justify-between p-10 pt-20'>
         <div className="relative h-[50vh] w-full flex justify-center place-items-center before:absolute before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[200px] after:w-[400px] after:translate-x-2 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-violet-700 before:dark:opacity-10 after:dark:from-violet-500 after:dark:via-[#6F3EF0] after:dark:opacity-40 before:lg:h-[360px]">
-          <div className='flex flex-col items-center align-center justify-center gap-8'>
+          <div className='border-violet-800 border rounded-xl p-6 flex flex-col items-center align-center justify-center gap-8 z-20'>
             <QRCode
               value={input.length > 1 ? input : twitterLink}
               size={qrSize}
@@ -185,10 +185,10 @@ export default function Home() {
             />
           </div>
         </div>
-        <div className='inputs-wrapper'>
+        <div className='inputs-wrapper z-30'>
           <div className='flex mb-3 w-full justify-center'>
             {/* Settings Button */}
-            <button className='flex justify-center pb-2 pt-2 pl-2 pr-2 mr-2 border-violet-800  static rounded-xl border p-4 bg-violet-800/30'>
+            <button className='flex justify-center pb-2 pt-2 pl-2 pr-2 mr-2 border-violet-800 backdrop-blur-2xl static rounded-xl border p-4 bg-violet-800/30'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 viewBox='0 0 24 24'
@@ -203,7 +203,7 @@ export default function Home() {
               </svg>
             </button>
             {/* Main URL Input */}
-            <div className='flex w-full justify-center pb-2 pt-2 border-violet-800  static rounded-xl border p-4 bg-violet-800/30'>
+            <div className='flex w-full justify-center pb-2 pt-2 border-violet-800 backdrop-blur-2xl static rounded-xl border p-4 bg-violet-800/30'>
               <input
                 value={input}
                 type='text'
@@ -214,7 +214,7 @@ export default function Home() {
               />
             </div>
             {/* Save Button */}
-            <button className='flex justify-center pb-2 pt-2 pl-2 pr-2 ml-2 border-violet-800  static rounded-xl border p-4 bg-violet-800/30'>
+            <button className='flex justify-center pb-2 pt-2 pl-2 pr-2 ml-2 border-violet-800 backdrop-blur-2xl static rounded-xl border p-4 bg-violet-800/30'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 viewBox='0 0 24 24'
@@ -257,15 +257,15 @@ export default function Home() {
                 onChange={(event) => handleQrResize(Number(event.target.value))}
                 className='w-full mx-2 h-5 bg-violet-800/30 outline-none appearance-none border-2 border-purple-800 rounded-full cursor-pointer focus:border-purple-500'
               />
-              <span>1000 px</span>
+              <span>1000px</span>
             </div>
 
             <div className='flex items-center justify-between my-2'>
               <label htmlFor='logo-size' className='font-bold w-1/2'>
                 Logo Size:
               </label>
-              <span className='mr-2'>{logoSize}</span>
-              <span>0</span>
+              <span className='mr-2'>{logoSize}px</span>
+              <span>0px</span>
               <input
                 id='logo-size'
                 type='range'
@@ -275,7 +275,7 @@ export default function Home() {
                 onChange={(event) => setLogoSize(Number(event.target.value))}
                 className='w-full mx-2 h-5 bg-violet-800/30 outline-none appearance-none border-2 border-purple-800 rounded-full cursor-pointer focus:border-purple-500'
               />
-              <span>{qrSize / 2}</span>
+              <span>{qrSize / 2}px</span>
             </div>
 
             <div className='flex items-center justify-between my-2'>
