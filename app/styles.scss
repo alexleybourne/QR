@@ -32,3 +32,53 @@ nav {
   width: 90vw;
   min-width: 400px;
 }
+
+.side-button {
+  transition-duration: 0.2s;
+  &:hover {
+    transform: scale(1.04);
+    filter: brightness(1.4);
+  }
+  &:active {
+    transform: scale(0.9);
+    opacity: 0.9;
+  }
+}
+
+.settings-button {
+  svg {
+    transition-duration: 0.2s;
+  }
+  &:hover {
+    svg {
+      transform: scale(1.04) rotate(180deg);
+      filter: brightness(1.4);
+    }
+  }
+  &:active {
+    svg {
+      transform: scale(0.9) rotate(360deg);
+      animation-fill-mode: both;
+      opacity: 0.9;
+    }
+  }
+}
+
+.save-button {
+  svg {
+    transition-duration: 0.2s;
+  }
+
+  &:hover {
+    svg {
+      transform: scale(1.04);
+      filter: brightness(1.4);
+    }
+  }
+  &:active {
+    svg {
+      transform: scale(0.9) translateY(6px);
+      opacity: 0.9;
+    }
+  }
+}

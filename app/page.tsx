@@ -9,6 +9,7 @@ import Image from 'next/image';
 import { QRCode } from 'react-qrcode-logo';
 
 interface Theme {
+  title?: string;
   fgColour?: string;
   match?: RegExp | RegExp[];
   logo?: string;
@@ -34,7 +35,7 @@ export default function Home() {
   const [logoPaddingCircle, setLogoPaddingCircle] = useState(false);
   const [qrStyleDots, setQrStyleDots] = useState(false);
   const [bgColour, setBgColour] = useState('');
-  const [quietZone, setQuietZone] = useState(0);
+  const [quietZone, setQuietZone] = useState(8);
   const [ecLevel, setEcLevel] = useState('M'); // L, M, Q, H - The error correction level of the QR Code
   const qrCanvasId = 'qr-code-canvas';
   // Social links
@@ -96,11 +97,20 @@ export default function Home() {
   const logoUrl = customLogo || theme?.logo;
 
   const downloadJpg = () => {
-    const canvas = document.getElementById(qrCanvasId);
+    const canvas = document.getElementById(qrCanvasId) as HTMLCanvasElement;
     const link = document.createElement('a');
 
+    console.log('theme', theme);
+
+    let fileName = 'QR-Code';
+
+    // Name the file after the theme if one is applied
+    if (theme) {
+      fileName = `${theme.title}-${fileName}`;
+    }
+
     // Save as JPEG
-    link.download = 'QR-Code.jpeg';
+    link.download = `${fileName}.jpeg`;
     link.href = canvas?.toDataURL('image/jpeg');
 
     // Trigger the download
@@ -162,7 +172,7 @@ export default function Home() {
         <div className='inputs-wrapper z-30'>
           <div className='flex mb-3 w-full justify-center'>
             {/* Settings Button */}
-            <button className='flex justify-center pb-2 pt-2 pl-2 pr-2 mr-2 border-violet-800 backdrop-blur-2xl static rounded-xl border p-4 bg-violet-800/30'>
+            <button className='side-button settings-button flex justify-center pb-2 pt-2 pl-2 pr-2 mr-2 border-violet-800 backdrop-blur-2xl rounded-xl border p-4 bg-violet-800/30'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 viewBox='0 0 24 24'
@@ -190,7 +200,7 @@ export default function Home() {
             {/* Save Button */}
             <button
               onClick={() => downloadJpg()}
-              className='flex justify-center pb-2 pt-2 pl-2 pr-2 ml-2 border-violet-800 backdrop-blur-2xl static rounded-xl border p-4 bg-violet-800/30'
+              className='side-button save-button flex justify-center pb-2 pt-2 pl-2 pr-2 ml-2 border-violet-800 backdrop-blur-2xl static rounded-xl border p-4 bg-violet-800/30'
             >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
