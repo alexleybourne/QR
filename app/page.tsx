@@ -18,6 +18,7 @@ interface Theme {
   eyeColour?: string;
   logoPaddingCircle?: boolean;
   bgColour?: string;
+  quietZone?: number;
 }
 
 export default function Home() {
@@ -27,6 +28,16 @@ export default function Home() {
   const [qrSize, setQrSize] = useState(300);
   const [customLogo, setCustomLogo] = useState('');
   const [logoSize, setLogoSize] = useState(qrSize / 2 / 2);
+  const [logoPadding, setLogoPadding] = useState(0);
+  const [eyeRadius, setEyeRadius] = useState(0);
+  const [eyeColour, setEyeColour] = useState('');
+  const [logoPaddingCircle, setLogoPaddingCircle] = useState(false);
+  const [qrStyleDots, setQrStyleDots] = useState(false);
+  const [bgColour, setBgColour] = useState('');
+  const [quietZone, setQuietZone] = useState(0);
+  const [ecLevel, setEcLevel] = useState('M'); // L, M, Q, H - The error correction level of the QR Code
+  const qrCanvasId = 'qr-code-canvas';
+  // Social links
   const twitterLink = 'https://twitter.com/AlexLeybourne';
   const githubLink = 'https://github.com/alexleybourne/QR';
 
@@ -84,6 +95,18 @@ export default function Home() {
   // Return custom logo or themed logo if they exist
   const logoUrl = customLogo || theme?.logo;
 
+  const downloadJpg = () => {
+    const canvas = document.getElementById(qrCanvasId);
+    const link = document.createElement('a');
+
+    // Save as JPEG
+    link.download = 'QR-Code.jpeg';
+    link.href = canvas?.toDataURL('image/jpeg');
+
+    // Trigger the download
+    link.click();
+  };
+
   return (
     <>
       <nav className='z-30 fixed w-full flex items-center justify-between font-mono text-s p-14'>
@@ -113,14 +136,15 @@ export default function Home() {
         <div className="relative h-[50vh] w-full flex justify-center place-items-center before:absolute before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[200px] after:w-[400px] after:translate-x-2 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-violet-700 before:dark:opacity-10 after:dark:from-violet-500 after:dark:via-[#6F3EF0] after:dark:opacity-40 before:lg:h-[360px]">
           <div className='border-violet-800 border rounded-xl p-6 flex flex-col items-center align-center justify-center gap-8 z-20'>
             <QRCode
+              id={qrCanvasId}
               value={input.length > 1 ? input : twitterLink}
               size={qrSize}
               logoImage={logoUrl}
               logoWidth={logoSize}
               logoHeight={logoSize}
-              logoPadding={theme?.logoPadding || 0}
+              logoPadding={theme?.logoPadding || logoPadding}
               logoPaddingStyle={theme?.logoPaddingCircle ? 'circle' : 'square'} // square | round
-              removeQrCodeBehindLogo={Boolean(logoUrl)}
+              removeQrCodeBehindLogo={true}
               eyeRadius={theme?.eyeRadius || 0}
               eyeColor={
                 theme?.eyeColour ||
@@ -131,6 +155,7 @@ export default function Home() {
               ecLevel='H' // L | M | Q | H
               bgColor={theme?.bgColour || defaultThemes.default.bgColour}
               fgColor={theme?.fgColour || defaultThemes.default.fgColour}
+              quietZone={theme?.quietZone || quietZone}
             />
           </div>
         </div>
@@ -163,7 +188,10 @@ export default function Home() {
               />
             </div>
             {/* Save Button */}
-            <button className='flex justify-center pb-2 pt-2 pl-2 pr-2 ml-2 border-violet-800 backdrop-blur-2xl static rounded-xl border p-4 bg-violet-800/30'>
+            <button
+              onClick={() => downloadJpg()}
+              className='flex justify-center pb-2 pt-2 pl-2 pr-2 ml-2 border-violet-800 backdrop-blur-2xl static rounded-xl border p-4 bg-violet-800/30'
+            >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 viewBox='0 0 24 24'
@@ -228,6 +256,24 @@ export default function Home() {
             </div>
 
             <div className='flex items-center justify-between my-2'>
+              <label htmlFor='logo-padding' className='font-bold w-1/2'>
+                Logo Padding:
+              </label>
+              <span className='mr-2'>{logoPadding}px</span>
+              <span>-50px</span>
+              <input
+                id='logo-padding'
+                type='range'
+                min='-50'
+                max={qrSize / 2}
+                value={logoPadding}
+                onChange={(event) => setLogoPadding(Number(event.target.value))}
+                className='w-full mx-2 h-5 bg-violet-800/30 outline-none appearance-none border-2 border-purple-800 rounded-full cursor-pointer focus:border-purple-500'
+              />
+              <span>{qrSize / 2}px</span>
+            </div>
+
+            <div className='flex items-center justify-between my-2'>
               <label className='font-bold w-1/2'>Logo Image:</label>
               <input
                 type='file'
@@ -250,6 +296,24 @@ export default function Home() {
                   />
                 </svg>
               </button>
+            </div>
+
+            <div className='flex items-center justify-between my-2'>
+              <label htmlFor='logo-padding' className='font-bold w-1/2'>
+                Quiet Zone:
+              </label>
+              <span className='mr-2'>{quietZone}px</span>
+              <span>0px</span>
+              <input
+                id='logo-padding'
+                type='range'
+                min='0'
+                max={qrSize / 2}
+                value={quietZone}
+                onChange={(event) => setQuietZone(Number(event.target.value))}
+                className='w-full mx-2 h-5 bg-violet-800/30 outline-none appearance-none border-2 border-purple-800 rounded-full cursor-pointer focus:border-purple-500'
+              />
+              <span>{qrSize / 2}px</span>
             </div>
           </div>
         </div>
