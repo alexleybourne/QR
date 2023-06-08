@@ -28,6 +28,8 @@ export default function Home() {
   const [theme, setTheme] = useState<Theme | null>(null);
   const [qrSize, setQrSize] = useState(300);
   const [customLogo, setCustomLogo] = useState('');
+  const [useFavicon, setUseFavicon] = useState(false);
+  const [favicon, setFavicon] = useState('');
   const [logoSize, setLogoSize] = useState(qrSize / 2 / 2);
   const [logoPadding, setLogoPadding] = useState(0);
   const [eyeRadius, setEyeRadius] = useState(0);
@@ -45,6 +47,7 @@ export default function Home() {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInput(event.target.value);
     getTheme(event.target.value, useTheme);
+    getFavicon(event.target.value);
   };
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -95,6 +98,25 @@ export default function Home() {
 
   // Return custom logo or themed logo if they exist
   const logoUrl = customLogo || theme?.logo;
+
+  const getBase64FromUrl = async (url: string) => {
+    const data = await fetch(url);
+    const blob = await data.blob();
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(blob);
+      reader.onloadend = () => {
+        const base64data = reader.result;
+        resolve(base64data);
+      };
+    });
+  };
+
+  const getFavicon = (url: string) => {
+    const googleFavicon = `https://www.google.com/s2/favicons?domain=${url}&sz=256`;
+    setFavicon(input.length > 2 ? googleFavicon : '');
+    getBase64FromUrl(googleFavicon).then(console.log);
+  };
 
   const downloadJpg = () => {
     const canvas = document.getElementById(qrCanvasId) as HTMLCanvasElement;
@@ -149,7 +171,7 @@ export default function Home() {
               id={qrCanvasId}
               value={input.length > 1 ? input : twitterLink}
               size={qrSize}
-              logoImage={logoUrl}
+              logoImage={useFavicon ? favicon : logoUrl}
               logoWidth={logoSize}
               logoHeight={logoSize}
               logoPadding={theme?.logoPadding || logoPadding}
@@ -217,7 +239,6 @@ export default function Home() {
               </svg>
             </button>
           </div>
-
           <div className='settings border-violet-300 bg-gradient-to-b from-violet-200 pb-2 pt-2 backdrop-blur-2xl dark:border-violet-800 dark:from-inherit static rounded-xl border bg-violet-200 p-4 dark:bg-violet-800/30'>
             <div className='flex items-center justify-between my-2'>
               <label className='font-bold w-1/2'>Use Smart Themes:</label>
@@ -281,6 +302,29 @@ export default function Home() {
                 className='w-full mx-2 h-5 bg-violet-800/30 outline-none appearance-none border-2 border-purple-800 rounded-full cursor-pointer focus:border-purple-500'
               />
               <span>{qrSize / 2}px</span>
+            </div>
+
+            <div className='flex items-center justify-between my-2'>
+              <label className='font-bold w-1/2'>Favicon Image:</label>
+              {favicon ? (
+                <img
+                  src={favicon}
+                  alt='favicon'
+                  className='w-16 h-16 mr-[30%]'
+                />
+              ) : (
+                <p>none found</p>
+              )}
+              <label htmlFor='favicon' className='font-bold w-1/2'>
+                Use Favicon?:
+              </label>
+              <input
+                id='favicon'
+                type='checkbox'
+                checked={useFavicon}
+                onChange={() => setUseFavicon(!useFavicon)}
+                className='focus:ring-purple-500 h-4 w-4 text-purple-600 border-violet-800 rounded'
+              />
             </div>
 
             <div className='flex items-center justify-between my-2'>
