@@ -39,6 +39,7 @@ export default function Home() {
   const [bgColour, setBgColour] = useState('');
   const [quietZone, setQuietZone] = useState(8);
   const [ecLevel, setEcLevel] = useState('M'); // L, M, Q, H - The error correction level of the QR Code
+  const [showSettings, setShowSettings] = useState(false);
   const qrCanvasId = 'qr-code-canvas';
   // Social links
   const twitterLink = 'https://twitter.com/AlexLeybourne';
@@ -115,28 +116,30 @@ export default function Home() {
   const getFavicon = (url: string) => {
     const googleFavicon = `https://www.google.com/s2/favicons?domain=${url}&sz=256`;
     setFavicon(input.length > 2 ? googleFavicon : '');
-    getBase64FromUrl(googleFavicon).then(console.log);
+    // getBase64FromUrl(googleFavicon).then(console.log);
   };
 
   const downloadJpg = () => {
-    const canvas = document.getElementById(qrCanvasId) as HTMLCanvasElement;
-    const link = document.createElement('a');
+    try {
+      const canvas = document.getElementById(qrCanvasId) as HTMLCanvasElement;
+      const link = document.createElement('a');
 
-    console.log('theme', theme);
+      let fileName = 'QR-Code';
 
-    let fileName = 'QR-Code';
+      // Name the file after the theme if one is applied
+      if (theme) {
+        fileName = `${theme.title}-${fileName}`;
+      }
 
-    // Name the file after the theme if one is applied
-    if (theme) {
-      fileName = `${theme.title}-${fileName}`;
+      // Save as JPEG
+      link.download = `${fileName}.jpeg`;
+      link.href = canvas?.toDataURL('image/jpeg');
+
+      // Trigger the download
+      link.click();
+    } catch (error) {
+      console.error(error);
     }
-
-    // Save as JPEG
-    link.download = `${fileName}.jpeg`;
-    link.href = canvas?.toDataURL('image/jpeg');
-
-    // Trigger the download
-    link.click();
   };
 
   return (
@@ -194,12 +197,19 @@ export default function Home() {
         <div className='inputs-wrapper z-30'>
           <div className='flex mb-3 w-full justify-center'>
             {/* Settings Button */}
-            <button className='side-button settings-button flex justify-center pb-2 pt-2 pl-2 pr-2 mr-2 border-violet-800 backdrop-blur-2xl rounded-xl border p-4 bg-violet-800/30'>
+            <button
+              onClick={() => setShowSettings(!showSettings)}
+              className={`side-button settings-button flex justify-center pb-2 pt-2 pl-2 pr-2 mr-2 border-violet-800 backdrop-blur-2xl rounded-xl border p-4 ${
+                showSettings ? 'bg-violet-800/90' : 'bg-violet-800/30'
+              }`}
+            >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 viewBox='0 0 24 24'
                 fill='currentColor'
-                className='w-6 h-6'
+                className={`w-6 h-6 transition-duration ${
+                  showSettings ? 'rotate' : ''
+                }`}
               >
                 <path
                   fillRule='evenodd'
@@ -222,7 +232,7 @@ export default function Home() {
             {/* Save Button */}
             <button
               onClick={() => downloadJpg()}
-              className='side-button save-button flex justify-center pb-2 pt-2 pl-2 pr-2 ml-2 border-violet-800 backdrop-blur-2xl static rounded-xl border p-4 bg-violet-800/30'
+              className='side-button save-button flex justify-center pb-2 pt-2 pl-2 pr-2 ml-2 border-violet-800 backdrop-blur-2xl static rounded-xl border p-4 bg-violet-800/30 active:bg-violet-800/90'
             >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -239,7 +249,11 @@ export default function Home() {
               </svg>
             </button>
           </div>
-          <div className='settings border-violet-300 bg-gradient-to-b from-violet-200 pb-2 pt-2 backdrop-blur-2xl dark:border-violet-800 dark:from-inherit static rounded-xl border bg-violet-200 p-4 dark:bg-violet-800/30'>
+          <div
+            className={`settings transition-duration border-violet-300 bg-gradient-to-b from-violet-200 pb-2 pt-2 backdrop-blur-2xl dark:border-violet-800 dark:from-inherit static rounded-xl border bg-violet-200 p-4 dark:bg-violet-800/30 ${
+              showSettings ? 'show' : 'hide'
+            }`}
+          >
             <div className='flex items-center justify-between my-2'>
               <label className='font-bold w-1/2'>Use Smart Themes:</label>
               <input
