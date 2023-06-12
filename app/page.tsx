@@ -100,6 +100,7 @@ export default function Home() {
   // Return custom logo or themed logo if they exist
   const logoUrl = customLogo || theme?.logo;
 
+  // Trying to get around CORS lol
   const getBase64FromUrl = async (url: string) => {
     const data = await fetch(url);
     const blob = await data.blob();
@@ -119,26 +120,65 @@ export default function Home() {
     // getBase64FromUrl(googleFavicon).then(console.log);
   };
 
-  const downloadJpg = () => {
-    try {
-      const canvas = document.getElementById(qrCanvasId) as HTMLCanvasElement;
-      const link = document.createElement('a');
+  const downloadQR = () => {
+    const saveAsJpeg = true;
+    let fileName = 'QR-Code';
+    const canvas = document.getElementById(qrCanvasId) as HTMLCanvasElement;
+    if (saveAsJpeg) {
+      try {
+        const link = document.createElement('a');
 
-      let fileName = 'QR-Code';
+        // Name the file after the theme if one is applied
+        if (theme?.title) {
+          fileName = `${theme.title}-${fileName}`;
+        }
 
-      // Name the file after the theme if one is applied
-      if (theme) {
-        fileName = `${theme.title}-${fileName}`;
+        // Save as JPEG
+        link.download = `${fileName}.jpeg`;
+        link.href = canvas?.toDataURL('image/jpeg');
+
+        // Trigger the download
+        link.click();
+      } catch (error) {
+        console.error(error);
       }
+    } else {
+      try {
+        const convertCanvasToSvg = () => {
+          const serializer = new XMLSerializer();
+          const canvasXml = serializer.serializeToString(canvas);
 
-      // Save as JPEG
-      link.download = `${fileName}.jpeg`;
-      link.href = canvas?.toDataURL('image/jpeg');
+          const svgString = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="${canvas.width}" height="${canvas.height}">
+              <foreignObject width="100%" height="100%">
+                <div xmlns="http://www.w3.org/1999/xhtml">
+                  <style>
+                    svg {
+                      background-color: white;
+                    }
+                  </style>
+                  ${canvasXml}
+                </div>
+              </foreignObject>
+            </svg>
+          `;
+          return svgString;
+        };
 
-      // Trigger the download
-      link.click();
-    } catch (error) {
-      console.error(error);
+        const svgString = convertCanvasToSvg();
+        const blob = new Blob([svgString], {
+          type: 'image/svg+xml;charset=utf-8',
+        });
+
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = fileName;
+        link.click();
+
+        URL.revokeObjectURL(link.href);
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
@@ -191,7 +231,7 @@ export default function Home() {
                 defaultThemes.default.fgColour
               }
               qrStyle={theme?.qrStyleDots ? 'dots' : 'squares'} // squares | dots
-              ecLevel='H' // L | M | Q | H
+              ecLevel={ecLevel} // L | M | Q | H
               bgColor={theme?.bgColour || defaultThemes.default.bgColour}
               fgColor={theme?.fgColour || defaultThemes.default.fgColour}
               quietZone={theme?.quietZone || quietZone}
@@ -258,7 +298,7 @@ export default function Home() {
               </div>
               {/* Save Button */}
               <button
-                onClick={() => downloadJpg()}
+                onClick={() => downloadQR()}
                 className='side-button save-button flex justify-center pb-2 pt-2 pl-2 pr-2 ml-2 border-violet-800 backdrop-blur-2xl static rounded-xl border p-4 bg-violet-800/30 active:bg-violet-800/90'
               >
                 <svg
@@ -418,9 +458,26 @@ export default function Home() {
                 max={qrSize / 2}
                 value={quietZone}
                 onChange={(event) => setQuietZone(Number(event.target.value))}
-                className='w-full mx-2 h-5 bg-violet-800/30 outline-none appearance-none border-2 border-purple-800 rounded-full cursor-pointer focus:border-purple-500'
+                className='w-full mx-2 h-5 bg-violet-800/30 outline-none appearance-none border-2 border-purple-800 rounded cursor-pointer focus:border-purple-500'
               />
               <span>{qrSize / 2}px</span>
+            </div>
+
+            <div className='flex items-center justify-between my-2'>
+              <label htmlFor='ec-level' className='font-bold w-1/2'>
+                Error Correction Level:
+              </label>
+              <select
+                id='ec-level'
+                value={ecLevel}
+                onChange={(event) => setEcLevel(event.target.value)}
+                className='w-full mx-2 bg-violet-800/30 outline-none appearance-none border-2 border-purple-800 rounded-full cursor-pointer focus:border-purple-500'
+              >
+                <option value='L'>Low</option>
+                <option value='M'>Medium</option>
+                <option value='Q'>High</option>
+                <option value='H'>Extreme</option>
+              </select>
             </div>
           </div>
         </div>
