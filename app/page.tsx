@@ -178,7 +178,11 @@ export default function Home() {
               logoWidth={logoSize}
               logoHeight={logoSize}
               logoPadding={theme?.logoPadding || logoPadding}
-              logoPaddingStyle={theme?.logoPaddingCircle ? 'circle' : 'square'} // square | round
+              logoPaddingStyle={
+                theme?.logoPaddingCircle || logoPaddingCircle
+                  ? 'circle'
+                  : 'square'
+              } // square | round
               removeQrCodeBehindLogo={true}
               eyeRadius={theme?.eyeRadius || 0}
               eyeColor={
@@ -340,6 +344,17 @@ export default function Home() {
                 className='w-full mx-2 h-5 bg-violet-800/30 outline-none appearance-none border-2 border-purple-800 rounded-full cursor-pointer focus:border-purple-500'
               />
               <span>{qrSize / 2}px</span>
+            </div>
+
+            <div className='flex items-center justify-between my-2'>
+              <label className='font-bold w-1/2'>Logo Padding Shape:</label>
+              <p>Cirlce?</p>
+              <input
+                type='checkbox'
+                checked={logoPaddingCircle}
+                onChange={() => setLogoPaddingCircle(!logoPaddingCircle)}
+                className='focus:ring-purple-500 h-4 w-4 text-purple-600 border-violet-800 rounded'
+              />
             </div>
 
             <div className='flex items-center justify-between my-2'>
