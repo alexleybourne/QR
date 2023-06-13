@@ -40,6 +40,7 @@ export default function Home() {
   const [quietZone, setQuietZone] = useState(8);
   const [ecLevel, setEcLevel] = useState('M'); // L, M, Q, H - The error correction level of the QR Code
   const [showSettings, setShowSettings] = useState(false);
+  const [debugMode, setDebugMode] = useState(false);
   const qrCanvasId = 'qr-code-canvas';
   // Social links
   const twitterLink = 'https://twitter.com/AlexLeybourne';
@@ -185,7 +186,7 @@ export default function Home() {
   return (
     <>
       <nav className='z-30 fixed w-full flex items-center justify-between font-mono text-s p-14'>
-        <p className='w-1/4'>
+        <p className='w-1/4' onClick={() => setDebugMode(!debugMode)}>
           Create a QR Code quickly and easily for free 🤩 <br />
           Work in progress 🛠️
         </p>
@@ -396,29 +397,30 @@ export default function Home() {
                 className='focus:ring-purple-500 h-4 w-4 text-purple-600 border-violet-800 rounded'
               />
             </div>
-
-            <div className='flex items-center justify-between my-2'>
-              <label className='font-bold w-1/2'>Favicon Image:</label>
-              {favicon ? (
-                <img
-                  src={favicon}
-                  alt='favicon'
-                  className='w-16 h-16 mr-[30%]'
+            {debugMode && (
+              <div className='flex items-center justify-between my-2'>
+                <label className='font-bold w-1/2'>Favicon Image:</label>
+                {favicon ? (
+                  <img
+                    src={favicon}
+                    alt='favicon'
+                    className='w-16 h-16 mr-[30%]'
+                  />
+                ) : (
+                  <p>none found</p>
+                )}
+                <label htmlFor='favicon' className='font-bold w-1/2'>
+                  Use Favicon?:
+                </label>
+                <input
+                  id='favicon'
+                  type='checkbox'
+                  checked={useFavicon}
+                  onChange={() => setUseFavicon(!useFavicon)}
+                  className='focus:ring-purple-500 h-4 w-4 text-purple-600 border-violet-800 rounded'
                 />
-              ) : (
-                <p>none found</p>
-              )}
-              <label htmlFor='favicon' className='font-bold w-1/2'>
-                Use Favicon?:
-              </label>
-              <input
-                id='favicon'
-                type='checkbox'
-                checked={useFavicon}
-                onChange={() => setUseFavicon(!useFavicon)}
-                className='focus:ring-purple-500 h-4 w-4 text-purple-600 border-violet-800 rounded'
-              />
-            </div>
+              </div>
+            )}
 
             <div className='flex items-center justify-between my-2'>
               <label className='font-bold w-1/2'>Logo Image:</label>
