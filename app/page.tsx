@@ -46,7 +46,7 @@ export default function Home() {
   const githubLink = 'https://github.com/alexleybourne/QR';
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInput(event.target.value);
+    setInput(event.target.value.toLowerCase());
     getTheme(event.target.value, useTheme);
     getFavicon(event.target.value);
   };
@@ -244,7 +244,7 @@ export default function Home() {
               onClick={() => setShowSettings(true)}
               className={`${
                 theme?.title ? 'show' : 'hide'
-              } transition-duration smart-theme-notification mb-3 w-1/2 z-40 flex items-center justify-center pb-2 pt-2 px-4 mr-2 border-violet-800 backdrop-blur-2xl rounded-xl border p-4 bg-violet-800/30`}
+              } transition-duration smart-theme-notification mb-3 w-auto z-40 flex items-center justify-center pb-2 pt-2 px-4 border-violet-800 backdrop-blur-2xl rounded-xl border p-4 bg-violet-800/30`}
             >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -471,7 +471,7 @@ export default function Home() {
                 id='ec-level'
                 value={ecLevel}
                 onChange={(event) => setEcLevel(event.target.value)}
-                className='w-full mx-2 bg-violet-800/30 outline-none appearance-none border-2 border-purple-800 rounded-full cursor-pointer focus:border-purple-500'
+                className='w-full mx-2 bg-violet-800/30 outline-none appearance-none border-2 border-purple-800 rounded-md px-2 cursor-pointer focus:border-purple-500'
               >
                 <option value='L'>Low</option>
                 <option value='M'>Medium</option>

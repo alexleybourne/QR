@@ -8,7 +8,7 @@ import youtubeLogo from '../public/logos/youtube.svg';
 export const themes = {
   twitter: {
     title: 'Twitter',
-    fgColour: '#1D9BF0',
+    fgColour: '#50ABF1',
     match: /twitter\.com/,
     logo: twitterLogo.src,
   },
