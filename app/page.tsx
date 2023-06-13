@@ -36,6 +36,7 @@ export default function Home() {
   const [eyeColour, setEyeColour] = useState('');
   const [logoPaddingCircle, setLogoPaddingCircle] = useState(false);
   const [qrStyleDots, setQrStyleDots] = useState(false);
+  const [fgColour, setFgColour] = useState('');
   const [bgColour, setBgColour] = useState('');
   const [quietZone, setQuietZone] = useState(8);
   const [ecLevel, setEcLevel] = useState('M'); // L, M, Q, H - The error correction level of the QR Code
@@ -218,7 +219,7 @@ export default function Home() {
               logoImage={useFavicon ? favicon : logoUrl}
               logoWidth={logoSize}
               logoHeight={logoSize}
-              logoPadding={theme?.logoPadding || logoPadding}
+              logoPadding={logoPadding || theme?.logoPadding}
               logoPaddingStyle={
                 theme?.logoPaddingCircle || logoPaddingCircle
                   ? 'circle'
@@ -227,14 +228,19 @@ export default function Home() {
               removeQrCodeBehindLogo={true}
               eyeRadius={theme?.eyeRadius || 0}
               eyeColor={
+                eyeColour ||
                 theme?.eyeColour ||
                 theme?.fgColour ||
                 defaultThemes.default.fgColour
               }
               qrStyle={theme?.qrStyleDots ? 'dots' : 'squares'} // squares | dots
               ecLevel={ecLevel} // L | M | Q | H
-              bgColor={theme?.bgColour || defaultThemes.default.bgColour}
-              fgColor={theme?.fgColour || defaultThemes.default.fgColour}
+              bgColor={
+                bgColour || theme?.bgColour || defaultThemes.default.bgColour
+              }
+              fgColor={
+                fgColour || theme?.fgColour || defaultThemes.default.fgColour
+              }
               quietZone={theme?.quietZone || quietZone}
             />
           </div>
@@ -245,7 +251,7 @@ export default function Home() {
               onClick={() => setShowSettings(true)}
               className={`${
                 theme?.title ? 'show' : 'hide'
-              } transition-duration smart-theme-notification mb-3 w-auto z-40 flex items-center justify-center pb-2 pt-2 px-4 border-violet-800 backdrop-blur-2xl rounded-xl border p-4 bg-violet-800/30`}
+              } transition-duration smart-theme-notification cursor-default mb-3 w-auto z-40 flex items-center justify-center pb-2 pt-2 px-4 border-violet-800 backdrop-blur-2xl rounded-xl border p-4 bg-violet-800/30`}
             >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -323,6 +329,10 @@ export default function Home() {
               showSettings ? 'show' : 'hide'
             }`}
           >
+            <p className='font-bold w-full text-center text-xl mb-4'>
+              Settings 🛠️ {debugMode && ' - Debug Mode Active 🐛'}
+            </p>
+
             <div className='flex items-center justify-between my-2'>
               <label className='font-bold w-1/2'>Use Smart Themes:</label>
               <input
@@ -432,6 +442,84 @@ export default function Home() {
                 className='w-full p-2 border-2 border-violet-800 focus:border-white rounded'
               />
               <button onClick={() => deleteLogo()}>
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  viewBox='0 0 24 24'
+                  fill='currentColor'
+                  className='w-6 h-6 ml-3'
+                >
+                  <path
+                    fill-rule='evenodd'
+                    d='M16.5 4.478v.227a48.816 48.816 0 013.878.512.75.75 0 11-.256 1.478l-.209-.035-1.005 13.07a3 3 0 01-2.991 2.77H8.084a3 3 0 01-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 01-.256-1.478A48.567 48.567 0 017.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 013.369 0c1.603.051 2.815 1.387 2.815 2.951zm-6.136-1.452a51.196 51.196 0 013.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 00-6 0v-.113c0-.794.609-1.428 1.364-1.452zm-.355 5.945a.75.75 0 10-1.5.058l.347 9a.75.75 0 101.499-.058l-.346-9zm5.48.058a.75.75 0 10-1.498-.058l-.347 9a.75.75 0 001.5.058l.345-9z'
+                    clip-rule='evenodd'
+                  />
+                </svg>
+              </button>
+            </div>
+
+            <div className='flex items-center justify-between my-2'>
+              <label className='font-bold w-1/2'>Colour:</label>
+              <input
+                type='color'
+                id='colour'
+                name='colour'
+                value={fgColour}
+                onChange={(e) => setFgColour(e.target.value)}
+              />
+              {fgColour !== '' && <p>{fgColour}</p>}
+              <button onClick={() => setFgColour('')}>
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  viewBox='0 0 24 24'
+                  fill='currentColor'
+                  className='w-6 h-6 ml-3'
+                >
+                  <path
+                    fill-rule='evenodd'
+                    d='M16.5 4.478v.227a48.816 48.816 0 013.878.512.75.75 0 11-.256 1.478l-.209-.035-1.005 13.07a3 3 0 01-2.991 2.77H8.084a3 3 0 01-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 01-.256-1.478A48.567 48.567 0 017.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 013.369 0c1.603.051 2.815 1.387 2.815 2.951zm-6.136-1.452a51.196 51.196 0 013.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 00-6 0v-.113c0-.794.609-1.428 1.364-1.452zm-.355 5.945a.75.75 0 10-1.5.058l.347 9a.75.75 0 101.499-.058l-.346-9zm5.48.058a.75.75 0 10-1.498-.058l-.347 9a.75.75 0 001.5.058l.345-9z'
+                    clip-rule='evenodd'
+                  />
+                </svg>
+              </button>
+            </div>
+
+            <div className='flex items-center justify-between my-2'>
+              <label className='font-bold w-1/2'>Eye Colour:</label>
+              <input
+                type='color'
+                id='eye-colour'
+                name='eye colour'
+                value={eyeColour}
+                onChange={(e) => setEyeColour(e.target.value)}
+              />
+              {eyeColour !== '' && <p>{eyeColour}</p>}
+              <button onClick={() => setEyeColour('')}>
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  viewBox='0 0 24 24'
+                  fill='currentColor'
+                  className='w-6 h-6 ml-3'
+                >
+                  <path
+                    fill-rule='evenodd'
+                    d='M16.5 4.478v.227a48.816 48.816 0 013.878.512.75.75 0 11-.256 1.478l-.209-.035-1.005 13.07a3 3 0 01-2.991 2.77H8.084a3 3 0 01-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 01-.256-1.478A48.567 48.567 0 017.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 013.369 0c1.603.051 2.815 1.387 2.815 2.951zm-6.136-1.452a51.196 51.196 0 013.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 00-6 0v-.113c0-.794.609-1.428 1.364-1.452zm-.355 5.945a.75.75 0 10-1.5.058l.347 9a.75.75 0 101.499-.058l-.346-9zm5.48.058a.75.75 0 10-1.498-.058l-.347 9a.75.75 0 001.5.058l.345-9z'
+                    clip-rule='evenodd'
+                  />
+                </svg>
+              </button>
+            </div>
+
+            <div className='flex items-center justify-between my-2'>
+              <label className='font-bold w-1/2'>Background Colour:</label>
+              <input
+                type='color'
+                id='bg-colour'
+                name='background colour'
+                value={bgColour}
+                onChange={(e) => setBgColour(e.target.value)}
+              />
+              {bgColour !== '' && <p>{bgColour}</p>}
+              <button onClick={() => setBgColour('')}>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   viewBox='0 0 24 24'
