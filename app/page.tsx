@@ -48,7 +48,7 @@ export default function Home() {
   const githubLink = 'https://github.com/alexleybourne/QR';
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInput(event.target.value.toLowerCase());
+    setInput(event.target.value);
     getTheme(event.target.value, useTheme);
     getFavicon(event.target.value);
   };
@@ -88,6 +88,7 @@ export default function Home() {
   // This accepts array for multiple or a single string match
   const getTheme = (url: string, useTheme: boolean) => {
     if (useTheme) {
+      url = url.toLowerCase();
       const theme = Object.entries(themes).find(([, theme]) =>
         Array.isArray(theme.match)
           ? theme.match.some((regex: RegExp) => regex.test(url))
