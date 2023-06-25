@@ -2,11 +2,14 @@
 
 import './styles.scss';
 
+import * as icons from 'simple-icons';
+
 import React, { ChangeEvent, useRef, useState } from 'react';
 import { defaultThemes, themes } from './themes';
 
 import Image from 'next/image';
 import { QRCode } from 'react-qrcode-logo';
+import type { SimpleIcon } from 'simple-icons';
 
 interface Theme {
   title?: string;
@@ -51,6 +54,40 @@ export default function Home() {
     setInput(event.target.value);
     getTheme(event.target.value, useTheme);
     getFavicon(event.target.value);
+  };
+
+  console.log('ICONS: ', icons);
+
+  const findSimpleIcon = () => {
+    const brandName = input.includes('.')
+      ? extractBrandNameFromURL(input)
+      : input;
+
+    for (const iconName in icons) {
+      const icon = icons[iconName];
+      console.log('Brandname: ', brandName);
+      if (icon.slug === brandName) {
+        console.log('FOUND ICON: ', icon);
+        return icon.toString();
+      }
+    }
+
+    return `No Icon Found${brandName?.length ? ` for ${brandName}` : ''}`; // No matching icon found
+  };
+
+  const extractBrandNameFromURL = (url: string) => {
+    if (url.length < 2) {
+      return null;
+    }
+
+    const hostname = new URL(url).hostname;
+    const parts = hostname.split('.');
+
+    if (parts.length >= 2) {
+      return parts[parts.length - 2];
+    }
+
+    return null; // Unable to extract brand name
   };
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -569,6 +606,13 @@ export default function Home() {
                 <option value='Q'>High</option>
                 <option value='H'>Extreme</option>
               </select>
+            </div>
+
+            <div className='flex items-center justify-between my-2'>
+              <label htmlFor='simple-icons' className='font-bold w-1/2'>
+                Simple Icons
+              </label>
+              {findSimpleIcon()}
             </div>
           </div>
         </div>
